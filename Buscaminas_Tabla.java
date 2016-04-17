@@ -22,18 +22,17 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
 
     public static final char BOMBA = '¤', ESPACIO = '*', ESTRELLA = '§';
     public static final char[] items = {0, BOMBA - ESPACIO, ESTRELLA - ESPACIO};
+    public static int cont_bomba = 0, cont_estrella = 0, cont_buit = 0;
+    public static int bombav = 0, estrellav = 0, buitv = 0;
+    public static int[] valor = {-5, +2, +1};
+    
+    private static int[] dimensiones = new int[2];
     private static int puntuacio;
+    
 
-    public static int getPuntuacio() {
+    public static int getPunt() {
+        puntuacio = bombav + estrellav + buitv;
         return puntuacio;
-    }
-
-    public static void sumaPuntuacio() {
-        ++puntuacio;
-    }
-
-    public static void restaPuntuacio() {
-        --puntuacio;
     }
 
     /**
@@ -44,8 +43,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
      * on fila[0] i col[1].
      *
      */
-    public static int[] medida_Tabla() {
-        int[] dimensiones = new int[2];
+    public static int[] medida_Tabla() {      
         boolean ok = false;
         System.out.println("Introdueix un numero de files: ");
 
@@ -95,11 +93,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
         int cont_bomba = 0, cont_estrella = 0;
         int random = 0;
 
-        System.out.println("\n");
-        System.out.println("Bomba: " + cont_bomba + " Estrella: " + cont_estrella);
-        System.out.println("Puntuació: " + getPuntuacio());
-
-        while (cont_bomba < bomba || cont_estrella < estrella) {
+        do {
 
             for (int i = 0; i < tabla.length; i++) {
                 for (int j = 0; j < tabla[i].length; j++) {
@@ -119,7 +113,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
                     }
                 }//fi for[j]
             }//fi for[i]
-        }//fi while
+        } while (cont_bomba < bomba || cont_estrella < estrella);
         return tabla;
     }
 
@@ -172,55 +166,79 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
     public static int[] pedir_coor() {
         int[] coord = new int[2];
         boolean ok = false;
+        String input = teclat.nextLine();
+        input = input.toLowerCase();
+        boolean esPasa = false;
 
         while (!ok) {
-            System.out.print("\nIntrodueix la fila: ");
-            try {
-                ok = true;
-                coord[0] = teclat.nextInt();
-            } catch (ArrayIndexOutOfBoundsException a) {
-                System.out.println("Ups! Has escollit una coordenada equivocada."
-                        + "Torna a introduir-ne una de nou!");
+            if (input.equals("a") && input.equals("b") && input.equals("e")) {
+                System.out.println("MODO PIRATA");
 
-                teclat.nextLine();
-                ok = false;
-            } catch (InputMismatchException e) {
-                System.out.println("ERROR! Caràcter no vàlid!");
+            } else if (input.equals("h")) {
+                Buscaminas_Menu.print_Menu();
+            } else {
 
-                teclat.nextLine();
-                ok = false;
+                System.out.print("\nIntrodueix la fila: ");
+                try {
 
+                    ok = true;
+                    coord[0] = Integer.parseInt(teclat.next());
+                    if (coord[0] > dimensiones[0] || coord[0] < 0) {
+                        System.out.println("Aquest valor es incorrecte! "
+                                + "Introdueix un valor vàlid!");
+                        esPasa = true;
+                    } else {
+                        esPasa = false;
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR! Caràcter no vàlid! ");
+
+                    teclat.nextLine();
+                    ok = false;
+
+                }
+
+                System.out.print("\nIntrodueix la columna: ");
+
+                try {
+                    ok = true;
+                    coord[1] = Integer.parseInt(teclat.next());
+                    System.out.println("\n");
+                    if (coord[1] > dimensiones[1] || coord[1] < 0) {
+                        System.out.println("Aquest valor es incorrecte! "
+                                + "Introdueix un valor vàlid!");
+                        esPasa = true;
+                    } else {
+                        esPasa = false;
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR! Caràcter no vàlid!");
+                    teclat.nextLine();
+                    ok = false;
+
+                } catch (ArrayIndexOutOfBoundsException a) {
+                    System.out.println("Ups! Has escollit una coordenada equivocada."
+                            + "Torna a introduir-ne una de nou!");
+
+                    teclat.nextLine();
+                    ok = false;
+                } catch (Exception e) {
+                    System.out.println("ERROR! " + e);
+                }
             }
-        }
 
-        while (!ok) {
-            System.out.print("\nIntrodueix la columna: ");
-
-            try {
-                ok = true;
-                coord[1] = teclat.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("ERROR! Caràcter no vàlid!");
-                teclat.nextLine();
-                ok = false;
-
-            } catch (ArrayIndexOutOfBoundsException a) {
-                System.out.println("Ups! Has escollit una coordenada equivocada."
-                        + "Torna a introduir-ne una de nou!");
-
-                teclat.nextLine();
-                ok = false;
-            }
         }
         return coord;
-
     }
 
     /**
      * \\\\-comp_Tabla-//// "Metode per comparar la taula actual amb una taula
      * booleana i mostrar la taula amagada menys la posicio que hagi introduït
-     * el jugador. Quan es completa l'operació, crida al metode @show_Tabla per
-     * mostrar la taula actual."
+     * el jugador. Quan es completa l'operació, crida al metode
+     *
+     * @show_Tabla per mostrar la taula actual."
      *
      * @param tabla-> paràmetre que utilitza la taula creada anteriorment.
      *
@@ -229,37 +247,52 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
      *
      */
     public static void comp_Tabla(boolean[][] mask, char[][] tabla) {
-        int cont_bomba = 0, cont_estrella = 0, cont_buit = 0;
+
         int fila = 0;
         int col = 0;
 
         int[] c = pedir_coor();
         fila = c[0];
         col = c[1];
-        if (c[0] == BOMBA) {
+
+        if (tabla[fila][col] == items[1]) {
+            bombav += valor[0];
             cont_bomba++;
-        }
 
-        if (fila > c[0]+1) {
-            System.out.println("Error! torna a introduir una fila!");
-            fila = c[0];
-        } else if (col > c[1]+1) {
-            System.out.println("Error! Torna a introduir una columna!");
-            col = c[1];
+        } else if (tabla[fila][col] == items[2]) {
+            estrellav += valor[1];
+            cont_estrella++;
+
         } else {
+            buitv += valor[2];
+            cont_buit++;
 
-            while (mask[fila][col] == true) {
-                System.out.println("ERROR Vuelve a introducir la fila:");
-                c = pedir_coor();
-                fila = c[0];
-                col = c[1];
-
-            }
         }
+
+        System.out.println("BOMBA " + cont_bomba + " ESTRELLA " + cont_estrella + " BUIT " + cont_buit);
+        System.out.println("p.BOMBA " + bombav + " p.ESTRELLA " + estrellav + " p.BUIT " + buitv);
+        System.out.println("Puntuacio: " + getPunt());
+        System.out.println("\n");
+        while (mask[fila][col] == true) {
+            System.out.println("ERROR Vuelve a introducir la fila:");
+            c = pedir_coor();
+            fila = c[0];
+            col = c[1];
+
+        }
+
         mask[fila][col] = true;
 
-        show_Tabla(tabla, mask);
+    }
 
+    private static boolean comprobarEmpat(char[][] taula, boolean[][] mask) {
+        boolean b = false;
+        for (int i = 1; i < taula.length && !b; i++) {
+            for (int j = 0; j < taula[i].length; j++) {
+            }
+            b = taula[0][i] == ' ';
+        }
+        return !b;
     }
 
 }

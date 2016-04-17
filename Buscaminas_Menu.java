@@ -1,15 +1,17 @@
 package GarciaFernandezKevin;
 
-import java.util.InputMismatchException;
+import garciafernandezkevin.Buscaminas_Player;
+import java.util.Scanner;
 
 /**
  *
  * @author kevin
  */
-public class Buscaminas_Menu extends Buscaminas_Tabla {
+public class Buscaminas_Menu extends Buscaminas_MAIN {
 
-    public static void print_MenuMain() {
-       
+    public static Buscaminas_Player.Jugador[] p;
+
+    public static void print_MenuMain() {        
         boolean ok = false;
         int opcio = 0;
 
@@ -26,16 +28,15 @@ public class Buscaminas_Menu extends Buscaminas_Tabla {
 
         System.out.println("Introdueix una opcio [1-4]: ");
         while (!ok) {
-            String linia=teclat.nextLine();
-                       
+            String linia = teclat.nextLine();
+
             //COMPROBAR CON PARSE INT
             try {
-                ok=true;
+                ok = true;
                 opcio = Integer.parseInt(linia);
-            }
-            catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("El valor no es un numero");
-                ok=false;
+                ok = false;
             }
             //COMPROVAR SIN PARSE INT
             /*try {
@@ -52,9 +53,10 @@ public class Buscaminas_Menu extends Buscaminas_Tabla {
         switch (opcio) {
             case 1:
                 break;
-            case 2:
-               
-                break;
+            case 2: {
+                //Buscaminas_Player.initJugador(p, teclat);
+            }
+            break;
             case 3:
                 //IMPLEMENTAR SISTEMA ALEATORIO DE JUEGO PARA CPU.
                 break;
@@ -66,6 +68,7 @@ public class Buscaminas_Menu extends Buscaminas_Tabla {
     }
 
     public static void print_Menu() {
+        System.out.println("\n");
         System.out.println("Joc BuscaMinas v1 (2016) – By VallbonaSoft Cooperativa\n"
                 + "Divertit joc interactiu en el que el jugador ha d'anar mostrant caselles amb l'objectiu\n"
                 + "de trobar tots els estels “§” abans de que esclatin totes les bombes “¤”.\n"
@@ -76,6 +79,8 @@ public class Buscaminas_Menu extends Buscaminas_Tabla {
                 + "E (o e): Permetre inserir manualment una estrella en el taulell    (Mode “pirata”)\n"
                 + "  Símbols: \n"
                 + "o: casella sense destapar  ¤: Bomba (­5)  #: Casella destapada (+1)  §: estel (+2)");
+        System.out.println("\n");
+        print_MenuMain();
 
     }
 

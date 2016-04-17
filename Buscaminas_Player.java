@@ -16,7 +16,7 @@ public class Buscaminas_Player extends Buscaminas_Menu {
             cont = 0;
         }
 
-        public Jugador(String s, char c) {
+        public Jugador(String s) {
             nombre = s;
             cont = 0;
         }
@@ -42,13 +42,15 @@ public class Buscaminas_Player extends Buscaminas_Menu {
         }
     }
 
-    public static void initJugador(Jugador[] p, Scanner teclat) {        
+    public static void initJugador(Jugador[] p, Scanner teclat) { 
+        p = new Jugador[2];
         System.out.println("Introdueix el nom del jugador 1");
         String nombre1 = teclat.nextLine();
         p[0] = new Jugador(nombre1);
         System.out.println("Introdueix el nom del jugador 2");
         String nombre2 = teclat.nextLine();
         p[1] = new Jugador(nombre2);
+        System.out.println("\n");
     }
 
 }

@@ -11,7 +11,7 @@ public class Buscaminas_Menu extends Buscaminas_MAIN {
 
     public static Buscaminas_Player.Jugador[] p;
 
-    public static void print_MenuMain() {        
+    public static void print_MenuMain() {
         boolean ok = false;
         int opcio = 0;
 
@@ -23,10 +23,9 @@ public class Buscaminas_Menu extends Buscaminas_MAIN {
 
         System.out.println("1. Mode un Jugador"
                 + "\n2. Mode Multijugador"
-                + "\n3. Mode VS CPU"
-                + "\n4. Menu d'ajuda");
+                + "\n3. Menu d'ajuda");
 
-        System.out.println("Introdueix una opcio [1-4]: ");
+        System.out.println("Introdueix una opcio [1-3]: ");
         while (!ok) {
             String linia = teclat.nextLine();
 
@@ -54,13 +53,10 @@ public class Buscaminas_Menu extends Buscaminas_MAIN {
             case 1:
                 break;
             case 2: {
-                //Buscaminas_Player.initJugador(p, teclat);
+                Buscaminas_Player.initJugador(p, teclat);
             }
             break;
             case 3:
-                //IMPLEMENTAR SISTEMA ALEATORIO DE JUEGO PARA CPU.
-                break;
-            case 4:
                 print_Menu();
                 break;
         }

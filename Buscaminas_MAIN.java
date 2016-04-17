@@ -16,21 +16,20 @@ public class Buscaminas_MAIN {
     public static void main(String[] args) {
         boolean fi = false;
         boolean empat = false;
-        boolean jugar = false;
+        boolean jugar = true;
 
+        //IMRPIMIR MENU
+        Buscaminas_Menu.print_MenuMain();
+        //SI ESCOJE OPCION ENTRE 1 y 3 -> GENERA TABLA
+        int[] dim = Buscaminas_Tabla.medida_Tabla();
+        boolean[][] mask = new boolean[dim[WIDTH]][dim[HEIGHT]];
+        char[][] tabla = Buscaminas_Tabla.init_Tabla(dim[WIDTH], dim[HEIGHT]);
+        //COMIENZA JUGADA HASTA QUE FI o EMPAT
         do {
-            //IMRPIMIR MENU
-            Buscaminas_Menu.print_MenuMain();
-            //SI ESCOJE OPCION ENTRE 1 y 3 -> GENERA TABLA
-            int[] dim = Buscaminas_Tabla.medida_Tabla();
-            boolean[][] mask = new boolean[dim[WIDTH]][dim[HEIGHT]];
-            char[][] tabla = Buscaminas_Tabla.init_Tabla(dim[WIDTH], dim[HEIGHT]);
-            //COMIENZA JUGADA HASTA QUE FI o EMPAT
-           
-                Buscaminas_Tabla.show_Tabla(tabla, mask);
-                Buscaminas_Tabla.comp_Tabla(mask, tabla);
-           
-        } while(!fi && !empat) ;
+            Buscaminas_Tabla.show_Tabla(tabla, mask);
+            Buscaminas_Tabla.comp_Tabla(mask, tabla);
+
+        } while (jugar);
 
     }
 

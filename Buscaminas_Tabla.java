@@ -25,10 +25,9 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
     public static int cont_bomba = 0, cont_estrella = 0, cont_buit = 0;
     public static int bombav = 0, estrellav = 0, buitv = 0;
     public static int[] valor = {-5, +2, +1};
-    
+
     private static int[] dimensiones = new int[2];
     private static int puntuacio;
-    
 
     public static int getPunt() {
         puntuacio = bombav + estrellav + buitv;
@@ -43,7 +42,8 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
      * on fila[0] i col[1].
      *
      */
-    public static int[] medida_Tabla() {      
+    public static int[] medida_Tabla() {
+
         boolean ok = false;
         System.out.println("Introdueix un numero de files: ");
 
@@ -165,70 +165,70 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
      */
     public static int[] pedir_coor() {
         int[] coord = new int[2];
-        boolean ok = false;
-        String input = teclat.nextLine();
+        String input = teclat.next();
         input = input.toLowerCase();
-        boolean esPasa = false;
 
-        while (!ok) {
-            if (input.equals("a") && input.equals("b") && input.equals("e")) {
+        
+        try {
+            
+            
+            System.out.print("\nIntrodueix la fila: ");
+            if (input.equals("a") || input.equals("b") || input.equals("e")) {
+                System.out.println("MODO PIRATA");
+
+            } else if (input.equals("h")) {
+                Buscaminas_Menu.print_Menu();
+            } else {
+                System.out.print("\nIntrodueix la fila: ");
+                coord[0] = Integer.parseInt(teclat.next());
+
+                while (coord[0] >= dimensiones[0] || coord[0] < 0) {
+                    System.out.println("Aquest valor es incorrecte! ");
+                    System.out.println("\nIntrodueix una fila: ");
+                    coord[0] = Integer.parseInt(teclat.next());
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR! Caràcter no vàlid! ");
+            teclat.nextLine();
+
+        }
+
+        System.out.print("\nIntrodueix la columna: ");
+
+        
+        try {
+            coord[1] = Integer.parseInt(teclat.next(input));
+            if (input.equals("a") || input.equals("b") || input.equals("e")) {
                 System.out.println("MODO PIRATA");
 
             } else if (input.equals("h")) {
                 Buscaminas_Menu.print_Menu();
             } else {
 
-                System.out.print("\nIntrodueix la fila: ");
-                try {
+                coord[1] = Integer.parseInt(teclat.next());
+                System.out.println("\n");
 
-                    ok = true;
-                    coord[0] = Integer.parseInt(teclat.next());
-                    if (coord[0] > dimensiones[0] || coord[0] < 0) {
-                        System.out.println("Aquest valor es incorrecte! "
-                                + "Introdueix un valor vàlid!");
-                        esPasa = true;
-                    } else {
-                        esPasa = false;
-                    }
-
-                } catch (NumberFormatException e) {
-                    System.out.println("ERROR! Caràcter no vàlid! ");
-
-                    teclat.nextLine();
-                    ok = false;
-
-                }
-
-                System.out.print("\nIntrodueix la columna: ");
-
-                try {
-                    ok = true;
+                while (coord[1] >= dimensiones[1] || coord[1] < 0) {
+                    System.out.println("Aquest valor es incorrecte! ");
+                    System.out.println("Introdueix una columna: ");
                     coord[1] = Integer.parseInt(teclat.next());
-                    System.out.println("\n");
-                    if (coord[1] > dimensiones[1] || coord[1] < 0) {
-                        System.out.println("Aquest valor es incorrecte! "
-                                + "Introdueix un valor vàlid!");
-                        esPasa = true;
-                    } else {
-                        esPasa = false;
-                    }
-
-                } catch (NumberFormatException e) {
-                    System.out.println("ERROR! Caràcter no vàlid!");
-                    teclat.nextLine();
-                    ok = false;
-
-                } catch (ArrayIndexOutOfBoundsException a) {
-                    System.out.println("Ups! Has escollit una coordenada equivocada."
-                            + "Torna a introduir-ne una de nou!");
-
-                    teclat.nextLine();
-                    ok = false;
-                } catch (Exception e) {
-                    System.out.println("ERROR! " + e);
                 }
             }
 
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR! Caràcter no vàlid!");
+            teclat.nextLine();
+
+        } catch (ArrayIndexOutOfBoundsException a) {
+            System.out.println("Ups! Has escollit una coordenada equivocada."
+                    + "Torna a introduir-ne una de nou!");
+
+            teclat.nextLine();
+
+        } catch (Exception e) {
+            System.out.println("ERROR! " + e);
         }
         return coord;
     }
@@ -273,6 +273,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
         System.out.println("p.BOMBA " + bombav + " p.ESTRELLA " + estrellav + " p.BUIT " + buitv);
         System.out.println("Puntuacio: " + getPunt());
         System.out.println("\n");
+
         while (mask[fila][col] == true) {
             System.out.println("ERROR Vuelve a introducir la fila:");
             c = pedir_coor();
@@ -285,7 +286,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
 
     }
 
-    private static boolean comprobarEmpat(char[][] taula, boolean[][] mask) {
+    /*private static boolean comprobarEmpat(char[][] taula, boolean[][] mask) {
         boolean b = false;
         for (int i = 1; i < taula.length && !b; i++) {
             for (int j = 0; j < taula[i].length; j++) {
@@ -293,6 +294,5 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
             b = taula[0][i] == ' ';
         }
         return !b;
-    }
-
+    }*/
 }

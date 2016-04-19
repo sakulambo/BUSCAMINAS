@@ -1,6 +1,7 @@
 package GarciaFernandezKevin;
 
 import java.util.InputMismatchException;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author kevin
@@ -25,6 +26,8 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
     public static int cont_bomba = 0, cont_estrella = 0, cont_buit = 0;
     public static int bombav = 0, estrellav = 0, buitv = 0;
     public static int[] valor = {-5, +2, +1};
+    public static char[][] tabla;
+    public static boolean[][] mask;
 
     private static int[] dimensiones = new int[2];
     private static int puntuacio;
@@ -90,7 +93,6 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
         char[][] tabla = new char[fila][col];
         int bomba = (fila * col) / 4;
         int estrella = (fila * col) / 4;
-        int cont_bomba = 0, cont_estrella = 0;
         int random = 0;
 
         do {
@@ -127,7 +129,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
      *
      */
     //MOSTRAR TABLA
-    public static void show_Tabla(char[][] tabla, boolean[][] mask) {
+    public static void show_Tabla(char[][] tabla, boolean[][] mask, boolean pirata) {
 
         System.out.print("   ");
         for (int i = 0; i < tabla[0].length; i++) {
@@ -142,7 +144,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
         for (int i = 0; i < tabla.length; i++) {
             System.out.print(i + " |");
             for (int j = 0; j < tabla[i].length; j++) {
-                if (mask[i][j] == true) {
+                if (mask[i][j] == true || pirata) {
                     System.out.print((char) (tabla[i][j] + ESPACIO) + " ");
                 } else {
                     System.out.print("o ");
@@ -165,43 +167,57 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
      */
     public static int[] pedir_coor() {
         int[] coord = new int[2];
-        String input = teclat.next();
-        input = input.toLowerCase();
+        boolean pirata = false;
 
-        
+        System.out.print("\nIntrodueix la fila (X) o prem 'p' "
+                + "per activar el mode pirata:  \n");
+
+        String input = teclat.next().toLowerCase();
+
         try {
-            
-            
-            System.out.print("\nIntrodueix la fila: ");
-            if (input.equals("a") || input.equals("b") || input.equals("e")) {
-                System.out.println("MODO PIRATA");
+            while (!pirata) {
 
-            } else if (input.equals("h")) {
-                Buscaminas_Menu.print_Menu();
-            } else {
-                System.out.print("\nIntrodueix la fila: ");
-                coord[0] = Integer.parseInt(teclat.next());
+                if (input.equals("p")) {
+                    modoPirata();
 
-                while (coord[0] >= dimensiones[0] || coord[0] < 0) {
-                    System.out.println("Aquest valor es incorrecte! ");
-                    System.out.println("\nIntrodueix una fila: ");
-                    coord[0] = Integer.parseInt(teclat.next());
+                } else if (input.equals("b")) {
+                    Buscaminas_Tabla.añadirBomba(tabla, dimensiones[0], dimensiones[1], items);
+                } else if (input.equals("e")) {
+
+                } else if (input.equals("h")) {
+                    Buscaminas_Menu.print_Menu();
                 }
-            }
+            }//fi while
+            if (!pirata) {
+
+                //coord[0] = Integer.parseInt(teclat.next());
+                while (Integer.parseInt(teclat.next()) >= dimensiones[0] || Integer.parseInt(teclat.next()) < 0) {
+                    System.out.print("Aquest valor es incorrecte! ");
+                    System.out.print("\nIntrodueix la fila (X) o prem 'p' "
+                            + "per activar el mode pirata:  \n");
+                    //coord[0] = Integer.parseInt(teclat.next());
+                }
+            }//fi if
 
         } catch (NumberFormatException e) {
             System.out.println("ERROR! Caràcter no vàlid! ");
-            teclat.nextLine();
+            teclat.next();
 
         }
 
-        System.out.print("\nIntrodueix la columna: ");
+        System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
+                + "per activar el mode pirata:  \n");
 
-        
         try {
-            coord[1] = Integer.parseInt(teclat.next(input));
-            if (input.equals("a") || input.equals("b") || input.equals("e")) {
-                System.out.println("MODO PIRATA");
+            if (input.equals("p")) {
+                while (pirata) {
+                    modoPirata();
+                }
+
+            } else if (input.equals("b")) {
+                Buscaminas_Tabla.añadirBomba(tabla, dimensiones[0], dimensiones[1], items);
+
+            } else if (input.equals("e")) {
 
             } else if (input.equals("h")) {
                 Buscaminas_Menu.print_Menu();
@@ -212,7 +228,8 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
 
                 while (coord[1] >= dimensiones[1] || coord[1] < 0) {
                     System.out.println("Aquest valor es incorrecte! ");
-                    System.out.println("Introdueix una columna: ");
+                    System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
+                            + "per activar el mode pirata:  \n");
                     coord[1] = Integer.parseInt(teclat.next());
                 }
             }
@@ -230,6 +247,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
         } catch (Exception e) {
             System.out.println("ERROR! " + e);
         }
+
         return coord;
     }
 
@@ -286,13 +304,46 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
 
     }
 
-    /*private static boolean comprobarEmpat(char[][] taula, boolean[][] mask) {
-        boolean b = false;
-        for (int i = 1; i < taula.length && !b; i++) {
-            for (int j = 0; j < taula[i].length; j++) {
-            }
-            b = taula[0][i] == ' ';
+    public static boolean modoPirata() {
+        boolean pirata = true;
+
+        if (pirata) {
+            System.out.println("MODE PIRATA ACTIVAT");
+            show_Tabla(tabla, mask, pirata);
+            Buscaminas_Menu.print_MenuP();
+            System.out.println("\n");
+            pedir_coor();
+
+        } else {            
+            Buscaminas_Tabla.comp_Tabla(mask, tabla);
+            pirata = false;
         }
-        return !b;
-    }*/
+        return pirata;
+    }
+
+    
+    //REVISAR EN CASA!
+    public static char[][] añadirBomba(char tabla[][], int fila, int col, char[] items) {
+
+        int b = '¤';
+
+        for (int i = 0; i < b; i++) {
+            int x = ThreadLocalRandom.current().nextInt(0, fila - 1);
+            int y = ThreadLocalRandom.current().nextInt(0, col - 1);
+
+            tabla[fila][col] = '¤';
+
+        }
+        return tabla;
+    }
+
+    /*private static boolean comprobarEmpat(char[][] taula, boolean[][] mask) {
+     boolean b = false;
+     for (int i = 1; i < taula.length && !b; i++) {
+     for (int j = 0; j < taula[i].length; j++) {
+     }
+     b = taula[0][i] == ' ';
+     }
+     return !b;
+     }*/
 }

@@ -1,4 +1,4 @@
-package garciafernandezkevin;
+package GarciaFernandezKevin;
 
 import static GarciaFernandezKevin.Buscaminas_MAIN.teclat;
 import java.util.Scanner;

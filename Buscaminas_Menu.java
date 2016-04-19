@@ -1,6 +1,6 @@
 package GarciaFernandezKevin;
 
-import garciafernandezkevin.Buscaminas_Player;
+import GarciaFernandezKevin.Buscaminas_Player;
 import java.util.Scanner;
 
 /**
@@ -45,7 +45,6 @@ public class Buscaminas_Menu extends Buscaminas_MAIN {
                 System.out.println("Las lletres no funcionen!");
                 teclat.nextLine();
                 ok = false;
-
             }*/
         }
 
@@ -65,18 +64,31 @@ public class Buscaminas_Menu extends Buscaminas_MAIN {
 
     public static void print_Menu() {
         System.out.println("\n");
-        System.out.println("Joc BuscaMinas v1 (2016) – By VallbonaSoft Cooperativa\n"
-                + "Divertit joc interactiu en el que el jugador ha d'anar mostrant caselles amb l'objectiu\n"
-                + "de trobar tots els estels “§” abans de que esclatin totes les bombes “¤”.\n"
-                + "Les opcions que permet el joc són:\n"
-                + "H (o h): Ajuda \n"
-                + "A (o a): Mostrar el taulell amb ubicació de les bombes/estrelles  (Mode “pirata”)\n"
-                + "B (o b): Permetre inserir manualment una bomba en el taulell     (Mode “pirata”)\n"
-                + "E (o e): Permetre inserir manualment una estrella en el taulell    (Mode “pirata”)\n"
-                + "  Símbols: \n"
-                + "o: casella sense destapar  ¤: Bomba (­5)  #: Casella destapada (+1)  §: estel (+2)");
+        System.out.println("Joc BuscaMinas v1 (2016) – By VallbonaSoft Cooperativa\n"
+                + "Divertit joc interactiu en el que el jugador ha d'anar mostrant caselles amb l'objectiu\n"
+                + "de trobar tots els estels “§” abans de que esclatin totes les bombes “¤”.\n"
+                + "Les opcions que permet el joc són:\n"
+                + "H (o h): Ajuda \n"
+                + "A (o a): Mostrar el taulell amb ubicació de les bombes/estrelles  (Mode “pirata”)\n"
+                + "B (o b): Permetre inserir manualment una bomba en el taulell     (Mode “pirata”)\n"
+                + "E (o e): Permetre inserir manualment una estrella en el taulell    (Mode “pirata”)\n"
+                + "  Símbols: \n"
+                + "o: casella sense destapar  ¤: Bomba (­5)  #: Casella destapada (+1)  §: estel (+2)");
         System.out.println("\n");
         print_MenuMain();
+
+    }
+    
+     public static void print_MenuP() {
+        System.out.println("\n");
+        System.out.println("Les opcions que permet el joc són:\n"
+                + "A (o a): Mostrar el taulell amb ubicació de les bombes/estrelles  (Mode “pirata”)\n"
+                + "B (o b): Permetre inserir manualment una bomba en el taulell     (Mode “pirata”)\n"
+                + "E (o e): Permetre inserir manualment una estrella en el taulell    (Mode “pirata”)\n"
+                + "  Símbols: \n"
+                + "o: casella sense destapar  ¤: Bomba (­5)  #: Casella destapada (+1)  §: estel (+2)");
+        
+     
 
     }
 

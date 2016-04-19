@@ -85,6 +85,7 @@ public class Buscaminas_Menu extends Buscaminas_MAIN {
                 + "A (o a): Mostrar el taulell amb ubicació de les bombes/estrelles  (Mode “pirata”)\n"
                 + "B (o b): Permetre inserir manualment una bomba en el taulell     (Mode “pirata”)\n"
                 + "E (o e): Permetre inserir manualment una estrella en el taulell    (Mode “pirata”)\n"
+                + "M (o m): Permet tornar al mode de joc manual (Mode “manual”)\n"
                 + "  Símbols: \n"
                 + "o: casella sense destapar  ¤: Bomba (­5)  #: Casella destapada (+1)  §: estel (+2)");
         

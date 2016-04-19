@@ -167,87 +167,168 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
      */
     public static int[] pedir_coor() {
         int[] coord = new int[2];
-        boolean pirata = false;
+        boolean okfila = false;
+        boolean okcol = false;
+        String input;
+        //INTRODUIR FILA
+        while (!okfila) {
+            System.out.print("\nIntrodueix la fila (X) o prem 'p' "
+                    + "per activar el mode pirata:  ");
 
-        System.out.print("\nIntrodueix la fila (X) o prem 'p' "
-                + "per activar el mode pirata:  \n");
+            input = teclat.next().toLowerCase();
 
-        String input = teclat.next().toLowerCase();
-
-        try {
-            while (!pirata) {
-
+            try {
                 if (input.equals("p")) {
                     modoPirata();
+                } else if (input.equals("b")) {
+                    añadirBomba(tabla, dimensiones[0], dimensiones[1], items);
+                } else if (input.equals("e")) {
+                    añadirEstrella(tabla, dimensiones[0], dimensiones[1], items);
+                } else if (input.equals("h")) {
+                    Buscaminas_Menu.print_Menu();
+                } else {
+
+                    while (coord[0] >= dimensiones[0] || coord[0] < 0) {
+                        System.out.print("Aquest valor es incorrecte! ");
+                        System.out.print("\nIntrodueix la fila (X) o prem 'p' "
+                                + "per activar el mode pirata:  ");
+                    }
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR! Caràcter no vàlid! ");
+                teclat.next();
+
+            } catch (ArrayIndexOutOfBoundsException a) {
+                System.out.println("Ups! Has escollit una coordenada equivocada."
+                        + "Torna a introduir-ne una de nou!");
+                teclat.next();
+
+            } catch (Exception e) {
+                System.out.println("ERROR! " + e);
+            }
+            okfila = true;
+        }
+
+        //INTORDUIR COLUMNA
+        while (!okcol) {
+            System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
+                    + "per activar el mode pirata:  ");
+
+            input = teclat.next().toLowerCase();
+
+            try {
+                if (input.equals("p")) {
+                    modoPirata();
+                } else if (input.equals("b")) {
+                    añadirBomba(tabla, dimensiones[0], dimensiones[1], items);
+                } else if (input.equals("e")) {
+                    añadirEstrella(tabla, dimensiones[0], dimensiones[1], items);
+                } else if (input.equals("h")) {
+                    Buscaminas_Menu.print_Menu();
+                } else {
+
+                    while (coord[1] >= dimensiones[1] || coord[1] < 0) {
+                        System.out.println("Aquest valor es incorrecte! ");
+                        System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
+                                + "per activar el mode pirata:  ");
+
+                    }
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR! Caràcter no vàlid!");
+                teclat.nextLine();
+
+            } catch (ArrayIndexOutOfBoundsException a) {
+                System.out.println("Ups! Has escollit una coordenada equivocada."
+                        + "Torna a introduir-ne una de nou!");
+                teclat.next();
+
+            } catch (Exception e) {
+                System.out.println("ERROR! " + e);
+            }
+            okcol = true;
+        }
+        return coord;
+    }
+
+    //PEDIR COORD PIRATA!
+    public static int[] pedir_coorP(String input) {
+        int[] coord = new int[2];
+        boolean okfila = false;
+        boolean okcol = false;
+
+        while (!okfila) {
+            System.out.print("\nIntrodueix la fila (X) o prem 'm' "
+                    + "per activar el mode manual:  ");
+            input = teclat.next().toLowerCase();
+
+            try {
+                if (input.equals("m")) {
+                    pedir_coor();
+                } else if (input.equals("b")) {
+                    añadirBomba(tabla, dimensiones[0], dimensiones[1], items);
+                } else if (input.equals("e")) {
+                    añadirEstrella(tabla, dimensiones[0], dimensiones[1], items);
+                } else if (input.equals("h")) {
+                    Buscaminas_Menu.print_Menu();
+                } else {
+
+                    while (coord[0] >= dimensiones[0] || coord[0] < 0) {
+                        System.out.print("Aquest valor es incorrecte! ");
+                        System.out.print("\nIntrodueix la fila (X) o prem 'p' "
+                                + "per activar el mode pirata:  \n");
+                    }
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR! Caràcter no vàlid! ");
+                teclat.next();
+
+            }
+            okfila = true;
+        }
+
+        while (!okcol) {
+            System.out.print("\nIntrodueix la columna (Y) o prem 'm' "
+                    + "per activar el mode manual:  ");
+            input = teclat.next().toLowerCase();
+
+            try {
+                if (input.equals("m")) {
+                    pedir_coor();
 
                 } else if (input.equals("b")) {
-                    Buscaminas_Tabla.añadirBomba(tabla, dimensiones[0], dimensiones[1], items);
+                    añadirBomba(tabla, dimensiones[0], dimensiones[1], items);
+
                 } else if (input.equals("e")) {
 
                 } else if (input.equals("h")) {
                     Buscaminas_Menu.print_Menu();
-                }
-            }//fi while
-            if (!pirata) {
+                } else {
 
-                //coord[0] = Integer.parseInt(teclat.next());
-                while (Integer.parseInt(teclat.next()) >= dimensiones[0] || Integer.parseInt(teclat.next()) < 0) {
-                    System.out.print("Aquest valor es incorrecte! ");
-                    System.out.print("\nIntrodueix la fila (X) o prem 'p' "
-                            + "per activar el mode pirata:  \n");
-                    //coord[0] = Integer.parseInt(teclat.next());
-                }
-            }//fi if
-
-        } catch (NumberFormatException e) {
-            System.out.println("ERROR! Caràcter no vàlid! ");
-            teclat.next();
-
-        }
-
-        System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
-                + "per activar el mode pirata:  \n");
-
-        try {
-            if (input.equals("p")) {
-                while (pirata) {
-                    modoPirata();
+                    while (coord[1] >= dimensiones[1] || coord[1] < 0) {
+                        System.out.println("Aquest valor es incorrecte! ");
+                        System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
+                                + "per activar el mode pirata:  ");
+                    }
                 }
 
-            } else if (input.equals("b")) {
-                Buscaminas_Tabla.añadirBomba(tabla, dimensiones[0], dimensiones[1], items);
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR! Caràcter no vàlid!");
+                teclat.next();
 
-            } else if (input.equals("e")) {
+            } catch (ArrayIndexOutOfBoundsException a) {
+                System.out.println("Ups! Has escollit una coordenada equivocada."
+                        + "Torna a introduir-ne una de nou!");
+                teclat.next();
 
-            } else if (input.equals("h")) {
-                Buscaminas_Menu.print_Menu();
-            } else {
-
-                coord[1] = Integer.parseInt(teclat.next());
-                System.out.println("\n");
-
-                while (coord[1] >= dimensiones[1] || coord[1] < 0) {
-                    System.out.println("Aquest valor es incorrecte! ");
-                    System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
-                            + "per activar el mode pirata:  \n");
-                    coord[1] = Integer.parseInt(teclat.next());
-                }
+            } catch (Exception e) {
+                System.out.println("ERROR! " + e);
             }
-
-        } catch (NumberFormatException e) {
-            System.out.println("ERROR! Caràcter no vàlid!");
-            teclat.nextLine();
-
-        } catch (ArrayIndexOutOfBoundsException a) {
-            System.out.println("Ups! Has escollit una coordenada equivocada."
-                    + "Torna a introduir-ne una de nou!");
-
-            teclat.nextLine();
-
-        } catch (Exception e) {
-            System.out.println("ERROR! " + e);
+            okcol = true;
         }
-
         return coord;
     }
 
@@ -292,7 +373,9 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
         System.out.println("Puntuacio: " + getPunt());
         System.out.println("\n");
 
+        System.out.println("JAJAJJA");
         while (mask[fila][col] == true) {
+
             System.out.println("ERROR Vuelve a introducir la fila:");
             c = pedir_coor();
             fila = c[0];
@@ -306,33 +389,57 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
 
     public static boolean modoPirata() {
         boolean pirata = true;
+        String input = "";
 
         if (pirata) {
+
             System.out.println("MODE PIRATA ACTIVAT");
             show_Tabla(tabla, mask, pirata);
             Buscaminas_Menu.print_MenuP();
             System.out.println("\n");
-            pedir_coor();
+            pedir_coorP(input);
 
-        } else {            
-            Buscaminas_Tabla.comp_Tabla(mask, tabla);
+        } else {
+
+            System.out.println("\nMODE MANUAL ACTIVAT");
+            pedir_coor();
             pirata = false;
+
         }
+
         return pirata;
     }
 
-    
     //REVISAR EN CASA!
     public static char[][] añadirBomba(char tabla[][], int fila, int col, char[] items) {
-
+        String input = "";
+        pedir_coorP(input);
         int b = '¤';
 
-        for (int i = 0; i < b; i++) {
+        for (int i = 0; i < b + 1; i++) {
             int x = ThreadLocalRandom.current().nextInt(0, fila - 1);
             int y = ThreadLocalRandom.current().nextInt(0, col - 1);
 
-            tabla[fila][col] = '¤';
+            tabla[x][y] = '¤';
 
+        }
+        return tabla;
+    }
+
+    public static char[][] añadirEstrella(char tabla[][], int fila, int col, char[] items) {
+        String input = "";
+        pedir_coorP(input);
+        int b = '§';
+
+        for (int i = 0; i <= b; i++) {
+            int x = ThreadLocalRandom.current().nextInt(0, fila);
+            int y = ThreadLocalRandom.current().nextInt(0, col);
+
+            if (tabla[x][y] == '¤') {
+                tabla[x][y] = '¤';
+            } else {
+                tabla[x][y] = '§';
+            }
         }
         return tabla;
     }

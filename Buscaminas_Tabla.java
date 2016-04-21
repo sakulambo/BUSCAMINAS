@@ -187,7 +187,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
                 } else if (input.equals("h")) {
                     Buscaminas_Menu.print_Menu();
                 } else {
-
+                    coord[0] = Integer.parseInt(input);
                     while (coord[0] >= dimensiones[0] || coord[0] < 0) {
                         System.out.print("Aquest valor es incorrecte! ");
                         System.out.print("\nIntrodueix la fila (X) o prem 'p' "
@@ -227,7 +227,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
                 } else if (input.equals("h")) {
                     Buscaminas_Menu.print_Menu();
                 } else {
-
+                    coord[1] = Integer.parseInt(input);
                     while (coord[1] >= dimensiones[1] || coord[1] < 0) {
                         System.out.println("Aquest valor es incorrecte! ");
                         System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
@@ -274,7 +274,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
                 } else if (input.equals("h")) {
                     Buscaminas_Menu.print_Menu();
                 } else {
-
+                    coord[0] = Integer.parseInt(input);
                     while (coord[0] >= dimensiones[0] || coord[0] < 0) {
                         System.out.print("Aquest valor es incorrecte! ");
                         System.out.print("\nIntrodueix la fila (X) o prem 'p' "
@@ -307,7 +307,7 @@ public class Buscaminas_Tabla extends Buscaminas_MAIN {
                 } else if (input.equals("h")) {
                     Buscaminas_Menu.print_Menu();
                 } else {
-
+                    coord[1] = Integer.parseInt(input);
                     while (coord[1] >= dimensiones[1] || coord[1] < 0) {
                         System.out.println("Aquest valor es incorrecte! ");
                         System.out.print("\nIntrodueix la columna (Y) o prem 'p' "

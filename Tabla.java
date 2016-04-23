@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import buscaminas.Jugador;
+import java.util.InputMismatchException;
 
 /**
  * @author kevin
@@ -45,7 +46,9 @@ public class Tabla {
      * on fila[0] i col[1].
      *
      */
-    public static final char BOMBA = '¤', ESPACIO = '*', ESTRELLA = '§';
+    public static final char BOMBA = '¤';
+    public static final char ESPACIO = '*';
+    public static final char ESTRELLA = '§';
     public static int VALORBOMBA = -5;
     public static int VALORESPACIO = +1;
     public static int VALORESTRELLA = +2;
@@ -76,6 +79,9 @@ public class Tabla {
             } catch (NumberFormatException e) {
                 System.out.println("El valor introduït no és númeric");
                 incorrecta = true;
+            } catch (InputMismatchException a){
+                System.out.println("Ups! Valor invàlid!");
+                filas = teclado.nextInt();
             }
         } while (incorrecta);
 
@@ -92,6 +98,8 @@ public class Tabla {
             } catch (NumberFormatException e) {
                 System.out.println("El valor introduït no és númeric");
                 incorrecta = true;
+            } catch (InputMismatchException a){
+                System.out.println("Ups! Valor invàlid!");
             }
         } while (incorrecta);
 
@@ -185,13 +193,13 @@ public class Tabla {
      *
      */
     public int[] coords(Scanner teclado, Jugador p) {
-        
+        String input;
         int fila = 0;
         boolean incorrecta = false;
         do {
-            System.out.print("\nIntrodueix la fila (X) o prem 'p' " +
-                             "per activar el mode pirata:  ");
-            String input = teclado.next().toLowerCase();
+            System.out.print("\nIntrodueix la fila (X) o prem 'p' "
+                    + "per activar el mode pirata:  ");
+            input = teclado.next().toLowerCase();
 
             try {
                 if (input.equals("p")) {
@@ -219,35 +227,39 @@ public class Tabla {
 
         int columna = 0;
         incorrecta = false;
+        if (input.equals("p")) {
+            incorrecta = true;
+        } else {
 
-        do {
-            System.out.print("\nIntrodueix la columna (Y) o prem 'p' " +
-                             "per activar el mode pirata:  ");
-            String input = teclado.next().toLowerCase();
+            do {
+                System.out.print("\nIntrodueix la columna (Y) o prem 'p' "
+                        + "per activar el mode pirata:  ");
+                input = teclado.next().toLowerCase();
 
-            try {
-                if (input.equals("p")) {
-                    modoPirata(teclado, p);
-                } else if (input.equals("h")) {
-                    Menu.printAjuda();
-                } else {
-                    columna = Integer.parseInt(input);
-                    incorrecta = columna >= tabla[0].length || columna < 0;
-                    if (incorrecta) {
-                        System.out.print("Aquest valor es incorrecte!");
+                try {
+                    if (input.equals("p")) {
+                        modoPirata(teclado, p);
+                    } else if (input.equals("h")) {
+                        Menu.printAjuda();
+                    } else {
+                        columna = Integer.parseInt(input);
+                        incorrecta = columna >= tabla[0].length || columna < 0;
+                        if (incorrecta) {
+                            System.out.print("Aquest valor es incorrecte!");
+                        }
                     }
+                } catch (NumberFormatException e) {
+                    System.out.println("Caràcter no vàlid!");
+                    incorrecta = true;
+                } catch (ArrayIndexOutOfBoundsException a) {
+                    System.out.println("Ups! Has escollit una coordenada equivocada.");
+                    incorrecta = true;
+                } catch (Exception e) {
+                    System.out.println("Something wrong! " + e);
+                    incorrecta = true;
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Caràcter no vàlid!");
-                incorrecta = true;
-            } catch (ArrayIndexOutOfBoundsException a) {
-                System.out.println("Ups! Has escollit una coordenada equivocada.");
-                incorrecta = true;
-            } catch (Exception e) {
-                System.out.println("Something wrong! " + e);
-                incorrecta = true;
-            }
-        } while (incorrecta);
+            } while (incorrecta);
+        }
 
         int[] coords = {fila, columna};
         return coords;
@@ -256,7 +268,7 @@ public class Tabla {
     //PEDIR COORD PIRATA!
     public void coordsPirata(Scanner teclado, Jugador p) {
         boolean incorrecta = false;
-        
+
         do {
             System.out.print("\nIntrodueix una opció disponible: ");
             String input = teclado.next().toLowerCase();
@@ -268,13 +280,13 @@ public class Tabla {
                     Menu.printAjuda();
                 } else if (input.equals("b")) {
                     int fila = 0;
-                   boolean incorrecta2 = false;
+                    boolean incorrecta2 = false;
                     do {
                         System.out.print("\nIntrodueix la fila (X) on vols inserir la Bomba:  ");
 
                         try {
-                            
-                           fila = Integer.parseInt(input);                            
+                            fila = teclado.nextInt();
+
                             incorrecta2 = fila >= tabla.length || fila < 0;
                             if (incorrecta2) {
                                 System.out.print("Aquest valor es incorrecte!");
@@ -296,7 +308,7 @@ public class Tabla {
                     do {
                         System.out.print("\nIntrodueix la columna (Y) on vols inserir la Bomba:  ");
                         try {
-                            columna = Integer.parseInt(input);
+                            columna = teclado.nextInt();
                             incorrecta2 = columna >= tabla[0].length || columna < 0;
                             if (incorrecta2) {
                                 System.out.print("Aquest valor es incorrecte!");
@@ -318,9 +330,9 @@ public class Tabla {
                     int fila = 0;
                     boolean incorrecta2 = false;
                     do {
-                        System.out.print("\nIntrodueix la fila (X) on vols inserir la Bomba:  ");
+                        System.out.print("\nIntrodueix la fila (X) on vols inserir l'Estel:  ");
                         try {
-                            fila = Integer.parseInt(input);
+                            fila = teclado.nextInt();
                             incorrecta2 = fila >= tabla.length || fila < 0;
                             if (incorrecta2) {
                                 System.out.print("Aquest valor es incorrecte!");
@@ -340,9 +352,9 @@ public class Tabla {
                     int columna = 0;
                     incorrecta2 = false;
                     do {
-                        System.out.print("\nIntrodueix la columna (Y) on vols inserir la Bomba:  ");
+                        System.out.print("\nIntrodueix la columna (Y) on vols inserir l'Estel:  ");
                         try {
-                            columna = Integer.parseInt(input);
+                            columna = teclado.nextInt();
                             incorrecta2 = columna >= tabla[0].length || columna < 0;
                             if (incorrecta2) {
                                 System.out.print("Aquest valor es incorrecte!");
@@ -421,12 +433,12 @@ public class Tabla {
             throw new Exception("Somethin wrong!");
         }
 
-        System.out.println("\nBOMBA: " + p.getBombas() + " ESTRELLA: " + p.getEstrellas() + " ESPAI: " + p.getEspacios());
-        System.out.println("Puntuació BOMBA: " + VALORBOMBA + " Puntuació d'ESTRELLA: " + VALORESTRELLA + " Puntuació d'ESPAI: " + VALORESPACIO);
+        System.out.println("\nBOMBA: " + p.getBombas() + " ESTEL: " + p.getEstrellas() + " ESPAI: " + p.getEspacios());
+        System.out.println("Puntuació BOMBA: " + VALORBOMBA + " Puntuació d'ESTEL: " + VALORESTRELLA + " Puntuació d'ESPAI: " + VALORESPACIO);
         System.out.println("Puntuacio: " + puntuacion());
         System.out.println("\n");
-        show(false);
         
+
     }
 
     public int puntuacion() {
@@ -438,10 +450,7 @@ public class Tabla {
         show(true);
         Menu.printPirata();
         coordsPirata(teclado, p);
-        if(teclado.equals("m")){
-            show(false);
-            
-        }
+
         System.out.println("\n");
     }
 
@@ -450,6 +459,8 @@ public class Tabla {
         if (!mask[fila][col] && tabla[fila][col] != ESTRELLA) {
             tabla[fila][col] = BOMBA;
             ++bombas;
+            
+            
         }
     }
 
@@ -457,21 +468,22 @@ public class Tabla {
         if (!mask[fila][col] && tabla[fila][col] != BOMBA) {
             tabla[fila][col] = ESTRELLA;
             ++estrellas;
+            
         }
     }
 
     public boolean fi() {
         if (bombas == 0) {
             show(false);
-            System.out.println("\nGAME OVER! " + "Has perdut \n" + 
-                               "La teva puntuació és: "+ puntuacion());
+            System.out.println("\nGAME OVER! " + "Has perdut \n"
+                    + "La teva puntuació és: " + puntuacion());
 
             return true;
         }
         if (estrellas == 0) {
             show(false);
-            System.out.println("YOU WIN! " + "Has guanyat \n" +
-                               "La teva puntuació és: "+ puntuacion());
+            System.out.println("YOU WIN! " + "Has guanyat \n"
+                    + "La teva puntuació és: " + puntuacion());
             return true;
         }
         /*if (t.getTime() == FINALTIME) {

@@ -91,10 +91,10 @@ public class Menu {
     }
     
     private static void init(Jugador p1, Jugador p2, Scanner teclado) { 
-        System.out.println("Introdueix el nom del jugador 1\n");
+        System.out.println("Introdueix el nom del jugador 1: ");
         String nombre = teclado.next();
         p1 = new Jugador(nombre);
-        System.out.println("Introdueix el nom del jugador 2\n");
+        System.out.println("Introdueix el nom del jugador 2: ");
         String nombre2 = teclado.next();
         p2 = new Jugador(nombre);
         System.out.println("\n");

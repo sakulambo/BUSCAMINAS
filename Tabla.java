@@ -1,20 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package buscaminas;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+import buscaminas.Jugador;
 
 /**
  * @author kevin
  *
- * @see Buscaminas_Tabla#medida_Tabla() -> Metode per inicialitzar la taula amb
- * les mesures que indiqui el jugador.
+ * @see init(Scanner teclado) -> Metode per inicialitzar la taula amb les
+ * mesures que indiqui el jugador.
  *
  * @see Buscaminas_Tabla#init_Tabla -> Metode per inicialitzar la taula amb les
  * mesures que indiqui el jugador.
@@ -49,26 +45,23 @@ public class Tabla {
      * on fila[0] i col[1].
      *
      */
-    
     public static final char BOMBA = '¤', ESPACIO = '*', ESTRELLA = '§';
     public static int VALORBOMBA = -5;
     public static int VALORESPACIO = +1;
     public static int VALORESTRELLA = +2;
-    
+
     private char[][] tabla;
     private boolean[][] mask;
-    
+
     private int bombas = 0;
     private int estrellas = 0;
-    
+
     private int puntuacionBomba = 0;
     private int puntuacionEspacio = 0;
     private int puntuacionEstrella = 0;
-    
-   // private Tiempo t;
+
+    // private Tiempo t;
     //private double tempsFinal = 80;
-    
-    
     public void init(Scanner teclado) {
         int filas = 0;
         boolean incorrecta = false;
@@ -84,8 +77,8 @@ public class Tabla {
                 System.out.println("El valor introduït no és númeric");
                 incorrecta = true;
             }
-        } while(incorrecta);
-        
+        } while (incorrecta);
+
         int columnas = 0;
         incorrecta = false;
         do {
@@ -100,10 +93,8 @@ public class Tabla {
                 System.out.println("El valor introduït no és númeric");
                 incorrecta = true;
             }
-        } while(incorrecta);
-        
-        
-        
+        } while (incorrecta);
+
         tabla = new char[filas][columnas];
         mask = new boolean[filas][columnas];
         for (int i = 0; i < tabla.length; ++i) {
@@ -112,29 +103,22 @@ public class Tabla {
                 mask[i][j] = false;
             }
         }
-        System.out.println("COMENÇAR");
-        for (char[] f : tabla) {
-            for (char c : f) {
-                System.out.println(c);;
-            }
-        }
-        System.out.println("FI");
+
         int maxBomba = (filas * columnas) / 4;
         int maxEstrella = (filas * columnas) / 4;
         Random rd = new Random();
-        
+
         do {
             for (int i = 0; i < tabla.length; i++) {
                 for (int j = 0; j < tabla[i].length; j++) {
 
-                    int random = rd.nextInt(4-1) + 1;
-                    
+                    int random = rd.nextInt(4 - 1) + 1;
+
                     if (tabla[i][j] == ESPACIO) {
                         if (bombas < maxBomba && random == 2) {
                             tabla[i][j] = BOMBA;
                             ++bombas;
-                        }
-                        else if (estrellas < maxEstrella && random == 3) {
+                        } else if (estrellas < maxEstrella && random == 3) {
                             tabla[i][j] = ESTRELLA;
                             ++estrellas;
                         }
@@ -142,12 +126,9 @@ public class Tabla {
                 }//fi for[j]
             }//fi for[i]
         } while (bombas < maxBomba || estrellas < maxEstrella);
-        
+
         //t.inicializa();
     }
-        
-        
-        
 
     /**
      * \\\\-init_Tabla-//// Metode per inicialitzar la taula amb les mesures que
@@ -160,8 +141,6 @@ public class Tabla {
      *
      */
     //METODE PER INICIALITZAR LA TAULA AMB BOMBES, ESTRELLES I ESPAIS BLANCS.
-
-
     /**
      * \\\\-show_Tabla-//// "Metode per visualitzar la taula amb les mesures que
      * ha indicat a @init_Tabla."
@@ -205,19 +184,15 @@ public class Tabla {
      * posicions de fila[0] i col[1].
      *
      */
-    
-    
-    
-    
-    
     public int[] coords(Scanner teclado, Jugador p) {
+        
         int fila = 0;
         boolean incorrecta = false;
         do {
             System.out.print("\nIntrodueix la fila (X) o prem 'p' " +
                              "per activar el mode pirata:  ");
             String input = teclado.next().toLowerCase();
-            
+
             try {
                 if (input.equals("p")) {
                     modoPirata(teclado, p);
@@ -230,29 +205,26 @@ public class Tabla {
                         System.out.print("Aquest valor es incorrecte!");
                     }
                 }
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Caràcter no vàlid!");
                 incorrecta = true;
-            }
-            catch (ArrayIndexOutOfBoundsException a) {
-                System.out.println( "Ups! Has escollit una coordenada equivocada.");
+            } catch (ArrayIndexOutOfBoundsException a) {
+                System.out.println("Ups! Has escollit una coordenada equivocada.");
                 incorrecta = true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Something wrong! " + e);
                 incorrecta = true;
             }
-        }while(incorrecta);
-        
+        } while (incorrecta);
+
         int columna = 0;
         incorrecta = false;
-        
+
         do {
             System.out.print("\nIntrodueix la columna (Y) o prem 'p' " +
                              "per activar el mode pirata:  ");
             String input = teclado.next().toLowerCase();
-            
+
             try {
                 if (input.equals("p")) {
                     modoPirata(teclado, p);
@@ -265,21 +237,18 @@ public class Tabla {
                         System.out.print("Aquest valor es incorrecte!");
                     }
                 }
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Caràcter no vàlid!");
                 incorrecta = true;
-            }
-            catch (ArrayIndexOutOfBoundsException a) {
-                System.out.println( "Ups! Has escollit una coordenada equivocada.");
+            } catch (ArrayIndexOutOfBoundsException a) {
+                System.out.println("Ups! Has escollit una coordenada equivocada.");
                 incorrecta = true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Something wrong! " + e);
                 incorrecta = true;
             }
-        }while(incorrecta); 
-        
+        } while (incorrecta);
+
         int[] coords = {fila, columna};
         return coords;
     }
@@ -287,118 +256,109 @@ public class Tabla {
     //PEDIR COORD PIRATA!
     public void coordsPirata(Scanner teclado, Jugador p) {
         boolean incorrecta = false;
+        
         do {
-            System.out.print("\nIntrodueix una opció disponible.");
+            System.out.print("\nIntrodueix una opció disponible: ");
             String input = teclado.next().toLowerCase();
-            
+
             try {
                 if (input.equals("m")) {
                     modoManual(teclado, p);
                 } else if (input.equals("h")) {
                     Menu.printAjuda();
-                }  else if (input.equals("b")) {                    
+                } else if (input.equals("b")) {
                     int fila = 0;
-                    boolean incorrecta2 = false;
+                   boolean incorrecta2 = false;
                     do {
                         System.out.print("\nIntrodueix la fila (X) on vols inserir la Bomba:  ");
-                        try {                            
-                            fila = Integer.parseInt(input);
+
+                        try {
+                            
+                           fila = Integer.parseInt(input);                            
                             incorrecta2 = fila >= tabla.length || fila < 0;
                             if (incorrecta2) {
                                 System.out.print("Aquest valor es incorrecte!");
                             }
-                        }
-                        catch (NumberFormatException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Caràcter no vàlid!");
                             incorrecta2 = true;
-                        }
-                        catch (ArrayIndexOutOfBoundsException a) {
-                            System.out.println( "Ups! Has escollit una coordenada equivocada.");
+                        } catch (ArrayIndexOutOfBoundsException a) {
+                            System.out.println("Ups! Has escollit una coordenada equivocada.");
                             incorrecta2 = true;
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Something wrong! " + e);
                             incorrecta2 = true;
                         }
-                    }while(incorrecta2);
-                    
+                    } while (incorrecta2);
+
                     int columna = 0;
                     incorrecta2 = false;
                     do {
                         System.out.print("\nIntrodueix la columna (Y) on vols inserir la Bomba:  ");
-                        try {                            
-                            fila = Integer.parseInt(input);
-                            incorrecta2 = fila >= tabla[0].length || fila < 0;
+                        try {
+                            columna = Integer.parseInt(input);
+                            incorrecta2 = columna >= tabla[0].length || columna < 0;
                             if (incorrecta2) {
                                 System.out.print("Aquest valor es incorrecte!");
                             }
-                        }
-                        catch (NumberFormatException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Caràcter no vàlid!");
                             incorrecta2 = true;
-                        }
-                        catch (ArrayIndexOutOfBoundsException a) {
-                            System.out.println( "Ups! Has escollit una coordenada equivocada.");
+                        } catch (ArrayIndexOutOfBoundsException a) {
+                            System.out.println("Ups! Has escollit una coordenada equivocada.");
                             incorrecta2 = true;
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Something wrong! " + e);
                             incorrecta2 = true;
                         }
-                    }while(incorrecta2);                    
-                    
+                    } while (incorrecta2);
+
                     anadirBomba(fila, columna);
                 } else if (input.equals("e")) {
                     int fila = 0;
                     boolean incorrecta2 = false;
                     do {
                         System.out.print("\nIntrodueix la fila (X) on vols inserir la Bomba:  ");
-                        try {                            
+                        try {
                             fila = Integer.parseInt(input);
                             incorrecta2 = fila >= tabla.length || fila < 0;
                             if (incorrecta2) {
                                 System.out.print("Aquest valor es incorrecte!");
                             }
-                        }
-                        catch (NumberFormatException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Caràcter no vàlid!");
                             incorrecta2 = true;
-                        }
-                        catch (ArrayIndexOutOfBoundsException a) {
-                            System.out.println( "Ups! Has escollit una coordenada equivocada.");
+                        } catch (ArrayIndexOutOfBoundsException a) {
+                            System.out.println("Ups! Has escollit una coordenada equivocada.");
                             incorrecta2 = true;
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Something wrong! " + e);
                             incorrecta2 = true;
                         }
-                    }while(incorrecta2);
-                    
+                    } while (incorrecta2);
+
                     int columna = 0;
                     incorrecta2 = false;
                     do {
                         System.out.print("\nIntrodueix la columna (Y) on vols inserir la Bomba:  ");
-                        try {                            
-                            fila = Integer.parseInt(input);
-                            incorrecta2 = fila >= tabla[0].length || fila < 0;
+                        try {
+                            columna = Integer.parseInt(input);
+                            incorrecta2 = columna >= tabla[0].length || columna < 0;
                             if (incorrecta2) {
                                 System.out.print("Aquest valor es incorrecte!");
                             }
-                        }
-                        catch (NumberFormatException e) {
+                        } catch (NumberFormatException e) {
                             System.out.println("Caràcter no vàlid!");
                             incorrecta2 = true;
-                        }
-                        catch (ArrayIndexOutOfBoundsException a) {
-                            System.out.println( "Ups! Has escollit una coordenada equivocada.");
+                        } catch (ArrayIndexOutOfBoundsException a) {
+                            System.out.println("Ups! Has escollit una coordenada equivocada.");
                             incorrecta2 = true;
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Something wrong! " + e);
                             incorrecta2 = true;
                         }
-                    }while(incorrecta2);                    
-                    
+                    } while (incorrecta2);
+
                     anadirEstrella(fila, columna);
                 } else {
                     incorrecta = true;
@@ -406,20 +366,17 @@ public class Tabla {
                         System.out.print("Aquest valor es incorrecte!");
                     }
                 }
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Caràcter no vàlid!");
                 incorrecta = true;
-            }
-            catch (ArrayIndexOutOfBoundsException a) {
-                System.out.println( "Ups! Has escollit una coordenada equivocada.");
+            } catch (ArrayIndexOutOfBoundsException a) {
+                System.out.println("Ups! Has escollit una coordenada equivocada.");
                 incorrecta = true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Something wrong! " + e);
                 incorrecta = true;
             }
-        }while(incorrecta);
+        } while (incorrecta);
     }
 
     /**
@@ -440,16 +397,16 @@ public class Tabla {
         int[] c = coords(teclado, p);
         int fila = c[0];
         int columna = c[1];
-        
+
         while (mask[fila][columna]) {
-            System.out.println("Aquestes coordenades ja estan destapades");
+            System.out.println("Aquestes coordenades ja estan destapades!");
             c = coords(teclado, p);
             fila = c[0];
             columna = c[1];
-        }        
+        }
         mask[fila][columna] = true;
 
-        if (tabla[fila][columna] == BOMBA) {            
+        if (tabla[fila][columna] == BOMBA) {
             puntuacionBomba += VALORBOMBA;
             p.sumaBomba();
             --bombas;
@@ -464,22 +421,27 @@ public class Tabla {
             throw new Exception("Somethin wrong!");
         }
 
-        System.out.println("BOMBA " + p.getBombas() + " ESTRELLA " + p.getEstrellas() + " ESPAI " + p.getEspacios());
-        System.out.println("Puntuació de BOMBA " + VALORBOMBA + " Puntuació d'ESTRELLA " + VALORESTRELLA + " Puntuació d'ESPAI " + VALORESPACIO);
+        System.out.println("\nBOMBA: " + p.getBombas() + " ESTRELLA: " + p.getEstrellas() + " ESPAI: " + p.getEspacios());
+        System.out.println("Puntuació BOMBA: " + VALORBOMBA + " Puntuació d'ESTRELLA: " + VALORESTRELLA + " Puntuació d'ESPAI: " + VALORESPACIO);
         System.out.println("Puntuacio: " + puntuacion());
         System.out.println("\n");
+        show(false);
+        
     }
-    
+
     public int puntuacion() {
         return puntuacionBomba + puntuacionEstrella + puntuacionEspacio;
     }
-    
-    
+
     public void modoPirata(Scanner teclado, Jugador p) {
-        System.out.println("MODE PIRATA ACTIVAT");
+        System.out.println("\nMODE PIRATA ACTIVAT");
         show(true);
         Menu.printPirata();
         coordsPirata(teclado, p);
+        if(teclado.equals("m")){
+            show(false);
+            
+        }
         System.out.println("\n");
     }
 
@@ -500,9 +462,16 @@ public class Tabla {
 
     public boolean fi() {
         if (bombas == 0) {
+            show(false);
+            System.out.println("\nGAME OVER! " + "Has perdut \n" + 
+                               "La teva puntuació és: "+ puntuacion());
+
             return true;
         }
         if (estrellas == 0) {
+            show(false);
+            System.out.println("YOU WIN! " + "Has guanyat \n" +
+                               "La teva puntuació és: "+ puntuacion());
             return true;
         }
         /*if (t.getTime() == FINALTIME) {
